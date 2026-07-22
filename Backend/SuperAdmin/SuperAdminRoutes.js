@@ -4,6 +4,9 @@ const {
   loginSuperAdmin,
   getSuperAdminProfile,
   getSuperAdminList,
+  getInstitutionSettings,
+  updateInstitutionSettings,
+  changePassword,
 } = require("./SuperAdminController");
 const {
   protectSuperAdmin,
@@ -15,5 +18,9 @@ router.post("/register", registerSuperAdmin);
 router.post("/login", loginSuperAdmin);
 router.post("/profile", protectSuperAdmin, getSuperAdminProfile);
 router.post("/list", protectSuperAdmin, getSuperAdminList);
+
+router.get("/settings/institution", protectSuperAdmin, getInstitutionSettings);
+router.put("/settings/institution", protectSuperAdmin, updateInstitutionSettings);
+router.put("/settings/change-password", protectSuperAdmin, changePassword);
 
 module.exports = router;

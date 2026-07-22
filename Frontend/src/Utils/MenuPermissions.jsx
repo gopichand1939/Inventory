@@ -42,7 +42,9 @@ const MENU_CONFIG_BY_ID = {
   210: { route_path: "/ration-inventory/stock-audit", icon_key: "stock_audit" },
   211: { route_path: "/ration-inventory/inventory-dashboard", icon_key: "inventory_dashboard" },
   212: { route_path: "/ration-inventory/qr-labels", icon_key: "qr_labels" },
-  213: { route_path: "/user-activity", icon_key: "user_activity" },
+  213: { route_path: "/ration-inventory/reports", icon_key: "reports" },
+  214: { route_path: "/ration-inventory/backup", icon_key: "backup" },
+  215: { route_path: "/ration-inventory/settings", icon_key: "settings" },
 };
 
 const MENU_CONFIG_BY_NAME = {
@@ -86,7 +88,9 @@ const MENU_CONFIG_BY_NAME = {
   "stock audit": { route_path: "/ration-inventory/stock-audit", icon_key: "stock_audit" },
   "inventory dashboard": { route_path: "/ration-inventory/inventory-dashboard", icon_key: "inventory_dashboard" },
   "qr labels": { route_path: "/ration-inventory/qr-labels", icon_key: "qr_labels" },
-  "user activity": { route_path: "/user-activity", icon_key: "user_activity" },
+  "reports": { route_path: "/ration-inventory/reports", icon_key: "reports" },
+  "backup & restore": { route_path: "/ration-inventory/backup", icon_key: "backup" },
+  "settings": { route_path: "/ration-inventory/settings", icon_key: "settings" },
 };
 
 const normalizeMenuName = (menuName) => {
@@ -132,7 +136,9 @@ const MENU_LABEL_KEYS_BY_NAME = {
   "stock audit": "menu.stockAudit",
   "inventory dashboard": "menu.inventoryDashboard",
   "qr labels": "menu.qrLabels",
-  "user activity": "menu.userActivity",
+  "reports": "menu.reports",
+  "backup & restore": "menu.backupRestore",
+  "settings": "menu.settings",
 };
 
 export const getMenuMeta = (menu) => {
@@ -177,15 +183,6 @@ export const getDefaultRoute = (user) => {
 
 export const getSidebarMenuTree = (user) => {
   const menus = getUserMenus(user);
-  if (user?.role === "super_admin") {
-    menus.push({
-      menu_id: "menu-restrictions",
-      menu_name: "Restrictions",
-      route_path: "/restriction/menu-permissions",
-      icon_key: "super_admin",
-      priority: 998
-    });
-  }
   
   // Inject QR Labels sub-menu dynamically if Ration Inventory parent is present and QR Labels is allowed
   const hasRation = menus.some(m => m.menu_id === 200);

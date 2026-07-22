@@ -1,4 +1,4 @@
-const Database = require("better-sqlite3");
+const { DatabaseSync } = require("node:sqlite");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 
@@ -6,14 +6,18 @@ const dbPath = process.env.USER_DATA_PATH
     ? path.join(process.env.USER_DATA_PATH, "inventory.db")
     : path.join(__dirname, "..", "inventory.db");
 
+require("fs").mkdirSync(path.dirname(dbPath), { recursive: true });
+
 const initDatabase = async () => {
     console.log("Initializing SQLite database at:", dbPath);
-    const db = new Database(dbPath);
+    const db = new DatabaseSync(dbPath);
 
     // Enable foreign keys
-    db.pragma("foreign_keys = ON");
-    db.pragma("journal_mode = WAL");
-    db.pragma("synchronous = NORMAL");
+    db.exec(`
+        PRAGMA foreign_keys = ON;
+        PRAGMA journal_mode = WAL;
+        PRAGMA synchronous = NORMAL;
+    `);
 
     // 1. Create tables
     db.exec(`
@@ -627,7 +631,9 @@ const initDatabase = async () => {
             (210, 200, 1, 'Stock Audit', 10, 1, 1),
             (211, 200, 1, 'Inventory Dashboard', 11, 1, 1),
             (212, 200, 1, 'QR Labels', 12, 1, 1),
-            (213, 200, 1, 'Reports', 13, 1, 1);
+            (213, 200, 1, 'Reports', 13, 1, 1),
+            (214, 200, 1, 'Backup & Restore', 14, 1, 1),
+            (215, 200, 1, 'Settings', 15, 1, 1);
 
         -- Map actions to Category Master
         INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (201, 1, 1, 1);
@@ -709,6 +715,14 @@ const initDatabase = async () => {
         -- Map actions to Reports
         INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (213, 3, 1, 1);
         INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (213, 5, 2, 1);
+
+        -- Map actions to Backup & Restore
+        INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (214, 3, 1, 1);
+        INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (214, 5, 2, 1);
+
+        -- Map actions to Settings
+        INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (215, 3, 1, 1);
+        INSERT OR IGNORE INTO urmg_menu_actions (menu_id, action_id, priority, status) VALUES (215, 2, 2, 1);
 
         -- Grant permissions to Profile 1 (Super Admin)
         INSERT OR IGNORE INTO urmg_profile_menus_actions (profile_id, menu_id, action_id, is_configuration_only, status)

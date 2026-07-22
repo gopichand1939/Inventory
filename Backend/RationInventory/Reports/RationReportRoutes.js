@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authenticateToken } = require("../../Auth/AuthMiddleware");
+const { protectAuth } = require("../../Auth/AuthMiddleware");
 const {
     getCurrentStockReport,
     getPurchaseHistoryReport,
@@ -11,12 +11,14 @@ const {
     getExpiryReport,
 } = require("./RationReportController");
 
-router.get("/current-stock", authenticateToken, getCurrentStockReport);
-router.get("/purchase-history", authenticateToken, getPurchaseHistoryReport);
-router.get("/stock-issue", authenticateToken, getStockIssueReport);
-router.get("/stock-adjustment", authenticateToken, getStockAdjustmentReport);
-router.get("/stock-audit", authenticateToken, getStockAuditReport);
-router.get("/low-stock", authenticateToken, getLowStockReport);
-router.get("/expiry-report", authenticateToken, getExpiryReport);
+const protectRationAccess = protectAuth(["super_admin", "pg_admin"]);
+
+router.get("/current-stock", protectRationAccess, getCurrentStockReport);
+router.get("/purchase-history", protectRationAccess, getPurchaseHistoryReport);
+router.get("/stock-issue", protectRationAccess, getStockIssueReport);
+router.get("/stock-adjustment", protectRationAccess, getStockAdjustmentReport);
+router.get("/stock-audit", protectRationAccess, getStockAuditReport);
+router.get("/low-stock", protectRationAccess, getLowStockReport);
+router.get("/expiry-report", protectRationAccess, getExpiryReport);
 
 module.exports = router;

@@ -207,9 +207,76 @@ const getSuperAdminList = async (req, res) => {
     }
 };
 
+const { query } = require("../Config/Database");
+
+const getInstitutionSettings = async (req, res) => {
+    try {
+        const result = await query("SELECT * FROM institutions WHERE id = 1");
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Institution not found" });
+        }
+        return res.status(200).json({ success: true, institution: result.rows[0] });
+    } catch (error) {
+        console.error("Failed to fetch institution settings:", error);
+        return res.status(500).json({ success: false, message: "Failed to fetch settings" });
+    }
+};
+
+const updateInstitutionSettings = async (req, res) => {
+    try {
+        const { institution_name, email, phone, address, city, state, pincode } = req.body;
+        
+        await query(
+            "UPDATE institutions SET institution_name = $1, email = $2, phone = $3, address = $4, city = $5, state = $6, pincode = $7 WHERE id = 1",
+            [institution_name, email, phone, address, city, state, pincode]
+        );
+        
+        return res.status(200).json({ success: true, message: "Institution settings updated successfully" });
+    } catch (error) {
+        console.error("Failed to update institution settings:", error);
+        return res.status(500).json({ success: false, message: "Failed to update settings" });
+    }
+};
+
+const changePassword = async (req, res) => {
+    try {
+        const { current_password, new_password } = req.body;
+        
+        if (!current_password || !new_password) {
+            return res.status(400).json({ success: false, message: "Current and new passwords are required" });
+        }
+
+        const credRes = await query("SELECT * FROM user_credentials WHERE super_admin_id = $1", [req.user.id]);
+        if (credRes.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "User credentials not found" });
+        }
+        
+        const credential = credRes.rows[0];
+        
+        const isPasswordValid = await bcrypt.compare(current_password, credential.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ success: false, message: "Invalid current password" });
+        }
+        
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(new_password, salt);
+        
+        await query("UPDATE user_credentials SET password = $1 WHERE super_admin_id = $2", [hashedPassword, req.user.id]);
+        await query("UPDATE super_admins SET password = $1 WHERE id = $2", [hashedPassword, req.user.id]);
+        
+        return res.status(200).json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Failed to update password:", error);
+        return res.status(500).json({ success: false, message: "Failed to update password" });
+    }
+};
+
 module.exports = {
     registerSuperAdmin,
     loginSuperAdmin,
     getSuperAdminProfile,
     getSuperAdminList,
+    getInstitutionSettings,
+    updateInstitutionSettings,
+    changePassword,
 };

@@ -1,7 +1,6 @@
 require("dns").setDefaultResultOrder("ipv4first");
 const express = require("express");
 const cors = require("cors");
-const rateLimit = require("express-rate-limit");
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config({ quiet: true });
@@ -122,6 +121,7 @@ app.use("/api/ration-stock-issue", rationStockIssueRoutes);
 app.use("/api/ration-stock-adjustment", rationStockAdjustmentRoutes);
 app.use("/api/ration-stock-audit", rationStockAuditRoutes);
 app.use("/api/ration-inventory-dashboard", rationInventoryDashboardRoutes);
+app.use("/api/ration-reports", rationReportRoutes);
 
 app.post("/", (req, res) => {
     res.send("Backend is running");

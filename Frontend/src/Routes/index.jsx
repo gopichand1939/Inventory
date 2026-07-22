@@ -3,116 +3,8 @@ import { Navigate } from "react-router-dom";
 
 import PageLoader from "../Components/Common/PageLoader";
 
-const Dashboard = lazy(() => import("../Pages/Dashboard/Dashboard"));
-const MenuRestrictions = lazy(() => import("../Components/Restriction/MenuRestrictions"));
 const LoginPage = lazy(() => import("../Pages/Login/LoginPage"));
 const RegisterPage = lazy(() => import("../Pages/Register/RegisterPage"));
-const AddSuperAdmin = lazy(() => {
-  return import("../Components/SuperAdmin/AddSuperAdmin");
-});
-const EditSuperAdmin = lazy(() => {
-  return import("../Components/SuperAdmin/EditSuperAdmin");
-});
-const SuperAdmin = lazy(() => {
-  return import("../Components/SuperAdmin/SuperAdmin");
-});
-const ViewSuperAdmin = lazy(() => {
-  return import("../Components/SuperAdmin/ViewSuperAdmin");
-});
-const AddInstitution = lazy(() => {
-  return import("../Components/Institution/AddInstitution");
-});
-const EditInstitution = lazy(() => {
-  return import("../Components/Institution/EditInstitution");
-});
-const Institution = lazy(() => {
-  return import("../Components/Institution/Institution");
-});
-const ViewInstituion = lazy(() => {
-  return import("../Components/Institution/ViewInstituion");
-});
-const AddPGAdmin = lazy(() => {
-  return import("../Components/PGAdmin/AddPGAdmin");
-});
-const EditPGAdmin = lazy(() => {
-  return import("../Components/PGAdmin/EditPGAdmin");
-});
-const PGAdmin = lazy(() => {
-  return import("../Components/PGAdmin/PGAdmin");
-});
-const ViewPGAdmin = lazy(() => {
-  return import("../Components/PGAdmin/ViewPGAdmin");
-});
-const TenantOnboarding = lazy(() => {
-  return import("../Components/Tenant/TenantOnboarding");
-});
-const ActiveTenants = lazy(() => {
-  return import("../Components/Tenant/ActiveTenants");
-});
-const VacantBeds = lazy(() => {
-  return import("../Components/Tenant/VacantBeds");
-});
-const TenantPayments = lazy(() => {
-  return import("../Components/Tenant/TenantPayments");
-});
-const PaymentReminders = lazy(() => {
-  return import("../Components/Tenant/PaymentReminder/PaymentReminders");
-});
-const VacatedHistory = lazy(() => {
-  return import("../Components/Tenant/VacatedHistory");
-});
-const TenantHistory = lazy(() => {
-  return import("../Components/Tenant/TenantHistory/TenantHistory");
-});
-const TenantProfile = lazy(() => {
-  return import("../Components/Tenant/TenantProfile");
-});
-const EditTenant = lazy(() => {
-  return import("../Components/Tenant/EditTenant");
-});
-const DailyExpensesSpend = lazy(() => {
-  return import("../Components/Expense/DailyExpensesSpend/DailyExpensesSpend");
-});
-const AddDailyExpense = lazy(() => {
-  return import("../Components/Expense/DailyExpensesSpend/AddDailyExpense");
-});
-const EditDailyExpense = lazy(() => {
-  return import("../Components/Expense/DailyExpensesSpend/EditDailyExpense");
-});
-const MealTypeMaster = lazy(() => {
-  return import("../Components/Expense/MealTypeMaster/MealTypeMaster");
-});
-const AddMealType = lazy(() => {
-  return import("../Components/Expense/MealTypeMaster/AddMealType");
-});
-const EditMealType = lazy(() => {
-  return import("../Components/Expense/MealTypeMaster/EditMealType");
-});
-const ViewMealType = lazy(() => {
-  return import("../Components/Expense/MealTypeMaster/ViewMealType");
-});
-const WeeklyFoodMenu = lazy(() => {
-  return import("../Components/Expense/WeeklyFoodMenu/WeeklyFoodMenu");
-});
-const WeeklyFoodMenuAdd = lazy(() => {
-  return import("../Components/Expense/WeeklyFoodMenu/WeeklyFoodMenuAdd");
-});
-const WeeklyFoodMenuView = lazy(() => {
-  return import("../Components/Expense/WeeklyFoodMenu/WeeklyFoodMenuView");
-});
-const Inventory = lazy(() => {
-  return import("../Components/InventoryManagement/Inventory");
-});
-const AddInventory = lazy(() => {
-  return import("../Components/InventoryManagement/AddInventory");
-});
-const EditInventory = lazy(() => {
-  return import("../Components/InventoryManagement/EditInventory");
-});
-const ViewInventory = lazy(() => {
-  return import("../Components/InventoryManagement/ViewInventory");
-});
-const RationManagement = lazy(() => import("../Components/RationManagement/RationManagement"));
 const RationCategoryMaster = lazy(() => {
   return import("../Components/RationInventory/CategoryMaster/RationCategoryMaster");
 });
@@ -245,6 +137,12 @@ const RationQRLabels = lazy(() => {
 });
 const RationReports = lazy(() => {
   return import("../Components/RationInventory/Reports/RationReports");
+});
+const RationBackup = lazy(() => {
+  return import("../Components/RationInventory/Backup/RationBackup");
+});
+const RationSettings = lazy(() => {
+  return import("../Components/RationInventory/Settings/RationSettings");
 });
 
 const withSuspense = (component) => {
@@ -423,6 +321,14 @@ export const rationInventoryRoutes = [
   {
     path: "/ration-inventory/reports",
     element: withSuspense(<RationReports />),
+  },
+  {
+    path: "/ration-inventory/backup",
+    element: withSuspense(<RationBackup />),
+  },
+  {
+    path: "/ration-inventory/settings",
+    element: withSuspense(<RationSettings />),
   },
 ];
 

@@ -166,7 +166,7 @@ const Login = () => {
       <div className="w-full lg:w-[65%] h-[35vh] lg:h-screen relative overflow-hidden bg-[#0B1F3A] shrink-0">
         <motion.img
           src={loginBg}
-          alt="BLR Stay Premium Residence"
+          alt="Ration Inventory Management System"
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
@@ -388,7 +388,7 @@ const Login = () => {
             Create new admin account
           </Link>
           <span className="text-[10px] font-black text-slate-350">
-            © 2026 BLR STAY. All rights reserved.
+            © 2026 Ration Inventory. All rights reserved.
           </span>
         </div>
       </div>

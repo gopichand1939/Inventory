@@ -79,7 +79,9 @@ const menuIcons = {
   stock_audit: ClipboardCheck,
   inventory_dashboard: PieChart,
   qr_labels: QrCode,
-  user_activity: Activity,
+  reports: NotebookText,
+  backup: History,
+  settings: Settings,
 };
 
 const MENU_ICON_SIZE = 18;
@@ -413,11 +415,11 @@ const Sidebar = () => {
           <div className="flex items-center gap-3">
             <img
               src={blrLogoCircular}
-              alt="BLR Stay"
+              alt="Ration Inventory"
               className="h-14 w-14 rounded-full object-contain"
             />
             <span className="text-xl font-bold tracking-tight text-white">
-              BLR Stay
+              Ration Inventory
             </span>
           </div>
 
